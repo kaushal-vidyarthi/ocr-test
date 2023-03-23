@@ -1,0 +1,952 @@
+[LAWLIB-345] Semantic Search for Drupal - PLL Created: 19/Jan/23  Updated: 23/Mar/23 
+Status:
+Open
+Project:
+Peoples Law Library
+Components:
+None 
+Affects versions:
+None 
+Fix versions:
+None 
+Security Level:
+Internal (Internal Issue) 
+
+Type: 
+Task 
+Priority: 
+Major 
+Reporter: 
+Pat Pathade 
+Assignee: 
+Felix Sundar 
+Resolution: 
+Unresolved 
+Votes: 
+0 
+Labels: 
+None 
+Remaining Estimate:
+Not Specified 
+Time Spent:
+Not Specified 
+Original estimate:
+Not Specified 
+
+Attachments: 
+Screenshot (14).png     Screenshot (28).png     Screenshot (29).png     Screenshot (36).png     Screenshot (37).png     Triplets - updated.csv     Triplets subject relation object.csv     Triplets.csv     Word_Embedding.ipynb     Word_Embedding_2023.ipynb     api triplets response server.png     article related to bankruptcy.png     bandicam 2023-02-27 16-21-05-741.mp4     bandicam 2023-03-14 14-17-19-309.mp4     chatgpt response server.png     chatgpt result.png     chatgpt result2.png     image-20230131-083335.png     image-20230131-113551.png     image-20230131-124653.png     image-20230201-071854.png     image-20230201-071932.png     image-20230213-082532.png     image-20230213-234116.png     image-20230213-234606.png     image-20230213-235007.png     image-20230213-235358.png     image-20230214-004307.png     image-20230214-004520.png     image-20230214-122220.png     image-20230214-122248.png     image-20230215-112551.png     image-20230215-122105.png     image-20230221-124611.png     image-20230221-140153.png     image-20230221-140434.png     image-20230222-114831.png     image-20230222-114900.png     image-20230222-182727.png     image-20230222-183852.png     image-20230223-085843.png     image-20230223-111801.png     image-20230227-141142.png     image-20230227-141541.png     image-20230228-061857.png     image-20230228-061916.png     image-20230228-074738.png     image-20230228-074901.png     image-20230228-133100.png     image-20230228-133539.png     image-20230301-075634.png     image-20230301-101704.png     image-20230301-112502.png     image-20230301-115410.png     image-20230309-114106.png     image-20230313-142913.png     image-20230314-121144.png     image-20230314-121235.png     image-20230314-121404.png     image-20230314-125927.png     image-20230314-140850.png     image-20230315-100500.png     image-20230315-123927.png     image-20230315-124052.png     image-20230316-090055.png     image-20230316-090335.png     image-20230316-090423.png     image-20230320-145606.png     image-20230321-102827.png     image-20230321-161913.png     image-20230321-161959.png     image-20230322-050243.png     image-20230322-140455.png     image-20230322-140530.png     image-20230322-140750.png     image-20230323-053442.png     image-20230323-053458.png     retrain controller finished.png     tagger failed.png     taggr error.png     taggr working.png     taxonomy index for bankruptcy.png     training data fragment1.png     
+
+ Description  
+ 
+
+Semantic Search that was developed for eP has already been adapted for Drupal and implemented on PLL as a proof of concept. We need to now build it out fully and good enough to go on prod. To do:
+1. Use Taxonomy terms for Concepts
+2. Add a new multiline text field called Training Sources on Taxonomy Term. In this field we will add URLs of web resources that will be used to train the system for that Taxonomy Term / Concept. One URL per line. A URL could refer to any web resource - a page in the site itself or some other site. It could be one URL or many defined for each Term.
+3. Extract triples from each page and store them in the graph database. Subject, object, predicate, and node reference. (Please read up on how triples work)
+4. Create an additional separate new search method to search the triple store. The results should be the node references. We need to do research and trials here.
+
+
+ Comments  
+ 
+
+Comment by Pat Pathade [ 28/Jan/23 ] 
+When can we get started on this Felix Sundar and Prince Singh? PLL wants to work with us on this.
+Comment by Felix Sundar [ 30/Jan/23 ] 
+Created a new repository for UI by cloning the sharepoint UI.
+Working on the new search features with Prince
+Comment by Prince Singh (Inactive) [ 30/Jan/23 ] 
+There are multiple parts of this algorithm
+1. Search all intersecting documents from Concept and Entity label – 
+2. Search all intersecting documents from Triplets – ?
+3. Search all union documents from Concept and Entity label – ?
+4. Search all union documents from Triplets – ?
+Comment by Prince Singh (Inactive) [ 30/Jan/23 ] 
+1. Search all intersecting documents from Concept and Entity label – 
+2. Search all intersecting documents from Triplets – ?
+3. Search all union documents from Concept and Entity label – 
+4. Search all union documents from Triplets – ?
+Felix Sundar 
+Comment by Pat Pathade [ 30/Jan/23 ] 
+We should feed the triples found from search query into ChatGPT API to get an essay form response. See this example I could create in 2 mins:
+I opened up this page [10 Tips on Hiring and Working with a Contractor | The Maryland People's Law Library (peoples-law.org)|https://www.peoples-law.org/10-tips-hiring-and-working-contractor]
+Then I entered the key points from the page into ChatGPT and asked it to produce an article. This was my interaction:
+Request:
+Create an article on working with a contractor using the following points: 
+Experience 
+References 
+Multiple Quotes 
+Complaints 
+Insurance 
+Fees 
+Disputes 
+Changes 
+Attorney 
+Fine Print
+Response:
+Working with Contractors: Tips for a Successful Project
+When you're looking to tackle a big project, whether it's a home renovation or a new construction, working with a contractor is often necessary. However, finding the right contractor can be a challenge, and the process can be overwhelming. To ensure that your project is a success, here are some tips to keep in mind when working with a contractor.
+1. Experience: Look for a contractor with a proven track record. Check their portfolio of previous projects, and ask for references from past clients.
+2. References: Speaking to a contractor's past clients can give you a better idea of their work ethic, quality of work, and how they handle any issues that may arise.
+3. Multiple Quotes: Get quotes from at least three contractors to compare prices and services. Keep in mind that the lowest quote may not always be the best option.
+4. Complaints: Research the contractor's online reviews and check if they have any complaints filed against them.
+5. Insurance: Make sure the contractor has proper insurance coverage to protect both them and you in case of any accidents or damages.
+6. Fees: Be clear about the payment terms, including the amount, timeline, and payment milestones. Consider including a contingency budget for unexpected expenses.
+7. Disputes: Have a plan in place in case of any disputes. A mediation process or a written contract can help resolve issues.
+8. Changes: If changes are necessary, make sure to clearly communicate them with the contractor and have a written agreement for any additional costs.
+9. Attorney: Consider consulting an attorney for complex projects to ensure all contracts and agreements are legally binding.
+10. Fine Print: Read the contract thoroughly and make sure you understand all the terms and conditions before signing. Don't hesitate to ask questions or clarify any doubts.
+By following these tips, you can work with a contractor with confidence and have a successful project outcome. Remember to always communicate clearly, have a written agreement, and do your due diligence before hiring a contractor.
+Now, compare this article with the original source page [10 Tips on Hiring and Working with a Contractor | The Maryland People's Law Library (peoples-law.org)|https://www.peoples-law.org/10-tips-hiring-and-working-contractor]. I think this is amazing! (and super exciting)
+Prince Singh Felix Sundar Surbhi Agarwal Kaushal Vidyarthi 
+Comment by Prince Singh (Inactive) [ 30/Jan/23 ] 
+1. Search all intersecting documents from Concept and Entity label – 
+2. Search all intersecting documents from Triplets – 
+3. Search all union documents from Concept and Entity label – 
+4. Search all union documents from Triplets – 
+Fixed all the search API points,
+Now testing this API and working on ChatGPT API.
+Pat Pathade Felix Sundar 
+Comment by Prince Singh (Inactive) [ 31/Jan/23 ] 
+I am testing the application first, then I will start to implement ChatGPT API.
+I have researched the ChatGPT API and below is the ChatGPT Pricing Model
+https://openai.com/api/pricing/ 
+Few Demo APIs
+https://platform.openai.com/examples 
+Comment by Prince Singh (Inactive) [ 31/Jan/23 ] 
+Testing API, so far there is no output.
+
+There are minor changes, I have to do in the query. Working on it.
+Comment by Prince Singh (Inactive) [ 31/Jan/23 ] 
+Updated the query
+Now the output of our query of Concepts and Entity Exist
+
+Working on 2nd Part of the query
+Comment by Prince Singh (Inactive) [ 31/Jan/23 ] 
+I have tested our search API. 
+
+It is working fine. We can test this on a staging server, once training is complete Triple Store Data is populated for the fragment.
+Comment by Prince Singh (Inactive) [ 01/Feb/23 ] 
+I have prepared a ChatGPT API.
+
+But there is a bug in the system, so the API response won’t be successful.
+
+Now, working on the training set in the staging server so that we can query the database
+Comment by Prince Singh (Inactive) [ 01/Feb/23 ] 
+API: https://api.openai.com/v1/completions
+Header: 
+Content-Type:application/json
+Authorization:Bearer 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
+Method: POST
+Body: 
+{
+  "model": "text-davinci-003",
+  "prompt": "Flood in Pakistan",
+  "max_tokens": 7,
+  "temperature": 0,
+  "top_p": 1,
+  "n": 1,
+  "stream": false,
+  "logprobs": null,
+  "stop": "\n"
+}
+There is a quota limit per API call.
+Comment by Pat Pathade [ 13/Feb/23 ] 
+Prince Singh and Felix Sundar I would like to see this working today. Just the essence of it - 
+1. Training - How have you trained the system? What nodes were selected? For what purpose?
+2. What does the search API produce?
+3. Can the search API results be put into ChatGPT manually to produce 2-3 paragraphs of an answer?
+Comment by Prince Singh (Inactive) [ 13/Feb/23 ] 
+The API for druapal
+URL: /api/v3/get-fragments
+Method: POST
+Payload:
+{
+  “searchTerm”: “<Your Search Query>”,
+  “searchType”: “Semantic Search”
+}
+Response: List<Fragment>
+Comment by Prince Singh (Inactive) [ 13/Feb/23 ] 
+Pat Pathade 
+ChatGPT API is still not available
+
+Comment by Pat Pathade [ 13/Feb/23 ] 
+I could not log into the development system set up on AWS for this R&D project. So, I went ahead and created a link field for Taxonomy Term on dev system on Acquia. This link field will hold the URL reference to the training document.
+
+For every term, you can list up to 10 training pages. This is how a term looks like in edit mode:
+
+You can link internal pages or external pages. And you reuse the links. That means one Training Page Link can be referred by many terms.
+After adding a few links:
+
+External link
+
+Comment by Pat Pathade [ 14/Feb/23 ] 
+There is another relationship that exists in the system and that is a lookup reference from Legal Resource to Taxonomy Term. For example, see the Term named “Evictions”. If you click Home / Administration / Structure / Taxonomy / Main NSMI Vocabulary and then locate and click Evictions, you will see:
+[Evictions | The Maryland People's Law Library (peoples-law.org)|https://dev.peoples-law.org/cat/landlord-tenant/evictions]
+
+What you see is a list of Legal Resources that look up to Evictions. If you click on Breach of Lease and edit it, you will see the look up:
+
+So, right now, every Taxonomy Term from Main NSMI Vocabulary has related Legal Resource type of content. That is our training set.
+You can start the Training based on Legal Resources related to Taxonomy Terms.
+Note, we will still keep the new field I created. That is to specify additional pages that are not Legal Resource. These could be external pages or different Content Types.
+Comment by Pat Pathade [ 14/Feb/23 ] 
+Rohit Agharkar please replace the PLL copy on AWS with the one from Dev.
+Comment by Pat Pathade [ 14/Feb/23 ] 
+Felix Sundar Prince Singh - as soon as Rohit Agharkar replaces the instance, you can start the training and populating the Triple Store DB. I am anxious to see what results the search query produces.
+Comment by Rohit Agharkar [ 14/Feb/23 ] 
+I have imported the latest code and database from Dev PLL to the PLL semantic search instance. 
+Steps followed.
+1. Downloaded the code from Github and copied it on the server at the path using the command 
+1. git clone <Link> /var/www/html/New_PLL
+2. Downloaded the database from Acquia and imported it using PHPmyadmin. It took around 2 hours to completely import the database.
+3. Did these configuration changes on the Apache config file 
+1. <VirtualHost *:80>
+2.         # The ServerName directive sets the request scheme, hostname and port that
+3.         # the server uses to identify itself. This is used when creating
+4.         # redirection URLs. In the context of virtual hosts, the ServerName
+5.         # specifies what hostname must appear in the request's Host: header to
+6.         # match this virtual host. For the default virtual host (this file) this
+7.         # value is not decisive as it is used as a last resort host regardless.
+8.         # However, you must set it for any further virtual host explicitly.
+9.         #ServerName www.example.com
+10. 
+11.         ServerAdmin webmaster@localhost
+12.         DocumentRoot /var/www/html/New_PLL/docroot/
+13. 
+14.         # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+15.         # error, crit, alert, emerg.
+16.         # It is also possible to configure the loglevel for particular
+17.         # modules, e.g.
+18.         #LogLevel info ssl:warn
+19. 
+20.         ErrorLog ${APACHE_LOG_DIR}/error.log
+21.         CustomLog ${APACHE_LOG_DIR}/access.log combined
+22. 
+23.     <Directory /var/www/html/New_PLL/docroot/>
+24.         Options Indexes FollowSymLinks
+25.         AllowOverride All
+26.         Require all granted
+27.     </Directory>
+28.         # For most configuration files from conf-available/, which are
+29.         # enabled or disabled at a global level, it is possible to
+30.         # include a line for only one particular virtual host. For example the
+31.         # following line enables the CGI configuration for this host only
+32.         # after it has been globally disabled with "a2disconf".
+33.         #Include conf-available/serve-cgi-bin.conf
+34. </VirtualHost>
+4. Changed database settings in the settings.php file. 
+1. $databases['default']['default'] = array (
+2.   'database' => 'Test_database',
+3.   'username' => 'admin',
+4.   'password' => 'Fantail@21',
+5.   'prefix' => '',
+6.   'host' => 'localhost',
+7.   'port' => '3306',
+8.   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+9.   'driver' => 'mysql',
+10. );
+11. $settings['config_sync_directory'] = 'sites/default/files/config_zg6k_UghB23OgqPrep-d643rG3fyD65Ikvroq6gEkYRMBeZVglKemGj1c7Wn7tXcLKmnOclqBw/sync';
+5. Installed Drush by referring this article: https://www.drupal.org/node/1248790
+6. Updated the database using drush command drush updb
+7. And cleared the site caches.
+Felix Sundar Prince Singh Please continue.
+Comment by Rohit Agharkar [ 14/Feb/23 ] 
+I have also copied the required custom module 'Taxonomy tree API' from the old code and Installed the module.
+CC: Prince Singh Felix Sundar 
+Comment by Felix Sundar [ 14/Feb/23 ] 
+The server and the taxonomy API are now working fine at http://54.243.155.221/
+Discussed with Prince and implementing the following approach.
+For each of the terms at http://54.243.155.221/admin/structure/taxonomy/manage/vocabulary_15/overview add all the related links to its description so that it is available at the taxonomy API response.
+
+
+In the document processor, extract these links from all the terms and store the unique ones in neo4j database for processing.
+Added the links for few terms for testing. Working on document processor.
+Pat Pathade Prince Singh 
+Comment by Pat Pathade [ 14/Feb/23 ] 
+adding links to the description is not acceptable.
+It is not practical.
+Comment by Prince Singh (Inactive) [ 14/Feb/23 ] 
+Pat Pathade 
+In an earlier implementation, We have created a custom API to read the taxonomy and its description.
+But in the current scenario, if there is an API available then we can use that, otherwise, we have to create a custom API for taxonomy to fetch corresponding links.
+Comment by Pat Pathade [ 14/Feb/23 ] 
+Rohit Agharkar - I cannot login to the server. Same issue persists. We cannot use this installation till I can login.
+Comment by Rohit Agharkar [ 15/Feb/23 ] 
+Pat Pathade As mentioned earlier, This problem is because of the default domain provided by AWS. Some websites and browsers may block cookies from domains that they don't recognize or trust. And because of the same reason, we are getting this error while login.
+Solution for this problem-
+1. Use an IP address instead of the default domain provided by AWS-
+Link: http://54.243.155.221/user/login 
+I have tried this solution on different browsers (Firefox, Edge, Chrome, Brave) and it is working fine. Because of the same issue, we used IP instead of the default domain while calling on API.
+2. Configure DNS.
+If we assign a domain name to the hosted site, this issue will not persist.
+CC: Prince Singh Felix Sundar 
+Comment by Pat Pathade [ 15/Feb/23 ] 
+Yes, IP address works. Thanks
+Comment by Felix Sundar [ 15/Feb/23 ] 
+Analyzed the database schema to identify the relation between terms and related articles.
+There is a table “taxonomy_index” which stores the relationship between terms and nodes. For each term, we can get the related node Id’s from this table. Using node IDs we can get the contents of those nodes from the table “node__body”
+Related nodes for the term bankruptcy(term id-4428) - 8 nodes:
+
+One of the related nodes - nid(entity_id) 481:
+
+Working on Java implementation to connect to the database.
+cc - Pat Pathade Prince Singh 
+Comment by Prince Singh (Inactive) [ 15/Feb/23 ] 
+Felix Sundar 
+Rest API is also enabled
+Use the below module: Rest UI and Web service Restful API
+For Getting Node Detail:
+API:http://ec2-54-243-155-221.compute-1.amazonaws.com/node/180?_format=hal_json
+Method: Get
+Basic Auth
+Comment by Felix Sundar [ 15/Feb/23 ] 
+Implemented Java class that connects to the drupal database through ssh tunnel and a method that queries and returns the list of related nodeIDs for a given term ID.
+Getting an exception invalid private key while running the code. But I can access the database with the same ssh key using MySQL workbench. Looking into this.
+
+Comment by Felix Sundar [ 15/Feb/23 ] 
+The database connection is working now. Modified the ssh key file format and fixed few other errors.
+Able to retrieve the list of related node IDs for a term ID.
+
+Working on getting the node details from the API that Prince has mentioned.
+Comment by Felix Sundar [ 16/Feb/23 ] 
+Implemented retrieving node details from API and storing it in neo4j. Mapped the fields from API response to FragmentEntity. 
+Modifying FragmentEntity model to match with search rest API model and mapping the remaining fields.
+Comment by Felix Sundar [ 16/Feb/23 ] 
+Modified FragmentEntity model and mapped all the fields from json.
+Working with Prince on the next steps in the training workflow.
+Comment by Prince Singh (Inactive) [ 16/Feb/23 ] 
+Implementation change in Drupal Tagger Application
+Earlier
+Training Data was stored in Node Entity Description Field
+Now
+Training Data will store in Fragment Entity with all the triplet attached to Fragment Entity as well as Node Entity (Concept)
+To implement this change below changes are required
+1. Create a Training Scheduler to pick untrained Node (is Processed=False)
+2. Get all the attached Entity
+3. Create Fragment Entity from the attached entity
+4. Add one more flag in Fragment Entity which tells if it is a training fragment or tagging fragment
+5. Using Tagger Application, attach the same triplet to Node Entity as well as Fragment Entity
+6. Store Entity Label to Fragment Entity
+Felix Sundar 
+cc: Pat Pathade 
+Comment by Felix Sundar [ 16/Feb/23 ] 
+Created a TrainingScheduler that picks untrained NodeEntities, get all related nodes from drupal, create fragments from the nodes with the flag isTrainingFragment=true, save it to the database and create relationship between these fragments and the corresponding NodeEntities.
+Completed first 4 points in the implementation. Working on Tagger application.
+cc - Prince Singh Pat Pathade 
+Comment by Felix Sundar [ 20/Feb/23 ] 
+Implemented the following changes in Taggr Application:
+1. in TrainingJob, get the training fragments related to the given node
+2. for each of the training fragments get TripleStoreEntities and EntityLabels
+3. attach all of these to the NodeEntity
+Working on attaching these to the training fragments also. This is not straightforward because there might be duplicate TripleStoreEntities.
+Comment by Felix Sundar [ 20/Feb/23 ] 
+Modified the implementation to attach triplets and EntityLabels to the corresponding FragmentEntities and to the NodeEntity without duplicates.
+Testing it locally.
+Comment by Felix Sundar [ 20/Feb/23 ] 
+Discussed the current implementation with Prince Singh 
+Working on the suggested modifications to improve efficiency and reduce memory usage. Start training based on unprocessed fragments instead of NodeEntities and attach the triplets to related NodeEntities if training=true.
+Comment by Felix Sundar [ 21/Feb/23 ] 
+Modified the implementation on tagger to start training based on unprocessed fragments. Tested the document processor and tagger locally. The retrain controller and training scheduler are working fine in local. Taggr does not create the relationship between fragments and triplestore entity. Looking into this.
+Retrain controller - create NodeEntities with isProcessed = INIT
+
+Training Scheduler - retrieve related nodes from drupal, create fragments and attach to NodeEntity
+
+Taggr - Fragments are related to Triplets. Looking into this.
+
+Comment by Felix Sundar [ 21/Feb/23 ] 
+Taggr doesn’t run fully in local. It gives OutOfMemory exception.
+
+The page content contains HTML tags. Will try converting it to normal text and run taggr.
+Comment by Felix Sundar [ 21/Feb/23 ] 
+The document processor is working fine. And the rest API is already created.
+Abhijeet Dake Please push the changes in master branches of these repos to drupal semantic search server.
+https://github.com/fantailtech/drupal-document-processor 
+https://github.com/fantailtech/eParatus-SharePoint-TaggrRest 
+Comment by Felix Sundar [ 21/Feb/23 ] 
+Implemented the changes to convert html text to normal text. In my system, I’m getting out of memory exception and quartz scheduler is not running properly. We can test this on the server.
+The changes are in master branch of this repo - https://github.com/fantailtech/drupal-taggr-application 
+Abhijeet Dake Please push the master branch to server.
+Comment by Prince Singh (Inactive) [ 21/Feb/23 ] 
+Testing Status:
+Connect app is fine:
+
+It is producing results as per expectation.
+Now testing on Tagger Application for any bug
+Comment by Abhijeet Dake [ 21/Feb/23 ] 
+I have pushed the changes onto the drupal semantic search server.
+
+Build the new code changes onto the server by running this cmd:
+sudo mvn clean install
+and started the java applications.
+
+cc: Felix Sundar Mahesh Bhosle Rohit Agharkar 
+Comment by Felix Sundar [ 22/Feb/23 ] 
+The taggr application is working now. Earlier the time interval between job schedules was 1 minute. The next job was started before the previous was complete and that caused the errors. Clearing the quartz scheduler and increasing the time interval to 4 minutes solved the issue.
+
+Triplets(red) are generated for a fragment(purple) and they are attached to both the fragment and the corresponding Concept(orange).
+Pushing it to server.
+Comment by Felix Sundar [ 22/Feb/23 ] 
+Worked with Abhijeet Dake to push the changes to server. Solved the configuration issues. Both connector and taggr are now able to run without issues on the server. 
+Stopped the taggr to retrain the application and process only fragments related to Rent.
+Comment by Felix Sundar [ 22/Feb/23 ] 
+Updated the document processor to process only ‘Landlord - Tentant’ and its related terms and retrained the application. Got 72 fragments related to these nodes.
+
+
+Taggr application is running. It is processing one fragment every 5 minutes. Verified that the number of fragments tagged with triplets keeps increasing one by one.
+Testing the search API.
+cc - Pat Pathade Prince Singh 
+Comment by Pat Pathade [ 22/Feb/23 ] 
+The triples extracted so far (see attached csv)
+Triplets subject relation object.csv
+from 17 drupal pages are not of good and are actually unusable. 
+There are several resources online on this topic. Please see
+The Stanford Natural Language Processing Group
+RDFTriples.pdf (yassine-hamoudi.github.io)
+I ran a sample on https://corenlp.run using text from [Breaking a Lease | The Maryland People's Law Library (peoples-law.org)|https://www.peoples-law.org/breaking-lease]:
+Tenants sometimes want or need to break a lease. Breaking a lease means to end a lease before its termination date. A lease is a binding contract between a landlord and a tenant. Maryland law requires that a lease limit late fees to 5% of a monthly rental payment, but in areas where the law does not impose limits, the landlord and tenant are free to negotiate their own agreement. This is true about early termination of a lease agreement. 
+Some written leases have a section which provides a way for tenants to cancel the lease. For example, some leases contain a section that allows a tenant who wants to end the lease early to pay the equivalent of two months’ rent in advance of moving, and give sixty days written notice of the moving date. Then the lease will be terminated.
+Maryland law does not generally provide the right to break a lease for good cause. If a tenant wants to break a lease that does not have a cancellation section, Maryland law permits early termination of a lease only under certain circumstances. These include certain situations where continuation of the tenancy becomes a severe hardship for the tenant, and certain situations where the tenant has been called to military duty. 
+This is what it produced:
+
+I have pulled out the same data below:
+subject
+relation
+object
+Lease
+is
+a binding contract
+lease
+is
+binding contract between a landlord
+Maryland law
+requires
+that
+leases
+have
+section
+written leases
+have
+section
+leases
+contain
+section
+lease
+will
+be terminated
+tenant wants
+permits
+early termination
+I fed the above points into ChatGPT. See what it returned!
+
+Create a paragraph of text using the following points: 
+Lease is a binding contract
+lease is binding contract between a landlord
+Maryland law requires that
+leases have section
+written leases have section
+leases contain section
+lease will be terminated
+tenant wants permits early termination
+A lease is a binding contract between a landlord and a tenant that outlines the terms of their agreement. In Maryland, the law requires that leases have certain sections, including information about the security deposit, rent payment, and the length of the lease. Most written leases also contain sections that cover maintenance and repair responsibilities, restrictions on pets or smoking, and other details related to the use and upkeep of the property. If a tenant violates the terms of the lease, the landlord may take legal action to terminate the lease, potentially resulting in the tenant being evicted. However, a tenant may sometimes negotiate for early termination of the lease if they have a valid reason, such as a job transfer or a medical issue, and the landlord agrees to release them from their obligations.
+Comment by Pat Pathade [ 22/Feb/23 ] 
+I have an idea for the user interface design to display the results:
+We should show the AI generated paragraph followed by section called References in which we list the page URLs (fragment URLs) that contain references to the question. e.g. it will look like this
+A lease is a binding contract between a landlord and a tenant that outlines the terms of their agreement. In Maryland, the law requires that leases have certain sections, including information about the security deposit, rent payment, and the length of the lease. Most written leases also contain sections that cover maintenance and repair responsibilities, restrictions on pets or smoking, and other details related to the use and upkeep of the property. If a tenant violates the terms of the lease, the landlord may take legal action to terminate the lease, potentially resulting in the tenant being evicted. However, a tenant may sometimes negotiate for early termination of the lease if they have a valid reason, such as a job transfer or a medical issue, and the landlord agrees to release them from their obligations.
+References:
+[Breaking a Lease | The Maryland People's Law Library|https://www.peoples-law.org/breaking-lease]
+[Ending a Lease | The Maryland People's Law Library|https://www.peoples-law.org/cat/landlord-tenant/ending-lease]
+[Landlord - Tenant | The Maryland People's Law Library|https://www.peoples-law.org/cat/landlord-tenant]
+Comment by Felix Sundar [ 23/Feb/23 ] 
+Wrote a program that generates triplets similar to the one from https://corenlp.run/ and used the same text from this comment https://fantail.atlassian.net/browse/LAWLIB-345?focusedCommentId=111463 as input.
+
+Our earlier triplets were different because we took only single words from subject, relation and object and stored them in lemmatized form.
+Triplets for the given text using the new program:
+[lease, is, binding contract]
+[lease, is, binding contract between landlord]
+[Maryland law, requires, that]
+[leases, have, section]
+[written leases, have, section]
+[equivalent, give, sixty days notice]
+[lease, pay, equivalent of two months ? rent]
+[lease, early pay, equivalent]
+[leases, contain section For, example]
+[wants, pay, equivalent]
+[lease, early pay equivalent in, advance of moving]
+[wants, pay equivalent in, advance of moving]
+[equivalent, give, sixty days written notice of moving date]
+[wants, end, lease]
+[wants, early pay equivalent in, advance]
+[lease, pay equivalent in, advance of moving]
+[lease, pay equivalent in, advance]
+[lease, early pay, equivalent of two months ? rent]
+[equivalent, give, sixty days written notice]
+[wants, early pay equivalent in, advance of moving]
+[wants, pay equivalent in, advance]
+[wants, pay, equivalent of two months ? rent]
+[equivalent, give, sixty days notice of moving date]
+[wants, early pay, equivalent of two months ? rent]
+[wants, early pay, equivalent]
+[two months, of, rent]
+[leases, contain, section]
+[lease, pay, equivalent]
+[lease, early pay equivalent in, advance]
+[lease, be, Then will terminated]
+[lease, be, will terminated]
+[If tenant wants, permits, termination of lease]
+[tenant wants, permits, termination]
+[tenant wants, permits, early termination of lease]
+[If tenant wants, permits termination under, certain circumstances]
+[If tenant wants, permits, early termination]
+[tenant wants, permits termination under, only certain circumstances]
+[If tenant wants, permits termination under, only certain circumstances]
+[tenant wants, permits, early termination]
+[tenant wants, permits termination under, circumstances]
+[tenant wants, permits, termination of lease]
+[tenant wants, permits termination under, only circumstances]
+[If tenant wants, permits termination under, only circumstances]
+[If tenant wants, permits, termination]
+[If tenant wants, permits termination under, circumstances]
+[If tenant wants, permits, early termination of lease]
+[tenant wants, permits termination under, certain circumstances]
+[continuation, becomes, severe hardship for tenant]
+[continuation, becomes, hardship]
+[continuation, becomes, severe hardship]
+[continuation, hardship for, tenant]
+[continuation, severe hardship for, tenant]
+[continuation, becomes, hardship for tenant]
+Working on integrating the new triplet format with taggr.
+Comment by Felix Sundar [ 23/Feb/23 ] 
+Modified taggr with new Triple Store Entity format. 
+
+Starting taggr application. Modifying the search API to return triplets.
+Comment by Felix Sundar [ 23/Feb/23 ] 
+Modified the search API to return all matching triplets as a list of string.
+
+
+Query - “tenant wants to file a complaint againt owner”
+API Response:
+[
+    "tenant can make complaint if owner fails",
+    "tenant can make complaint owner fails",
+    "tenant had filed complaint with commissioner of housing",
+    "tenant had filed written complaint",
+    "tenant had filed complaint with commissioner",
+    "tenant had filed written complaint with commissioner",
+    "tenant had filed written complaint with commissioner of housing",
+    "tenant had filed complaint",
+    "tenant can file complaint with court commissioner",
+    "tenant may file complaint",
+    "tenant can file complaint",
+    "tenant may file complaint with department",
+    "tenant may file complaint with department of permits"
+]
+ChatGPT response when asked to create a paragraph of text using these points:
+When an owner fails to fulfill their responsibilities towards their tenants, the tenants have the right to make a complaint. The complaint can be made in various forms, including a written complaint or filing a complaint with the Commissioner of Housing. In some cases, the tenant may need to file a complaint with the court commissioner. It is important to note that the tenant has the option to file a complaint with the department or the department of permits as well. Recently, a tenant had filed a written complaint with the Commissioner of Housing regarding the owner's failure to address several maintenance issues in their apartment. This action shows that tenants have a voice and can take action when necessary to ensure their rights are protected.
+Total Fragments related to ‘Landlord - Tenant’ - 75
+Fragments tagged as of now - 38
+Triplets generated for 38 fragments - 8534
+Fragments are tagged every 3 mins. Remaining fragments - 37
+The API can be accessed at http://3.215.165.135:8080/api/v3/get-triplets
+To test the API, send a POST request to this URL with payload in the following format:
+{
+    "searchTerm":"tenant wants to file a complaint againt owner",
+    "searchType":""
+}
+cc - Pat Pathade Prince Singh Jaldhi Rustagi 
+Comment by Felix Sundar [ 23/Feb/23 ] 
+CSV file containing triplets and corresponding nodeId and name.
+Triplets.csv
+Pat Pathade Prince Singh 
+Comment by Felix Sundar [ 23/Feb/23 ] 
+Updated Triplets CSV file.
+Fragments tagged - 53/75
+Triplets - 11425
+Triplets - updated.csv
+Pat Pathade 
+Comment by Pat Pathade [ 23/Feb/23 ] 
+This is amazing!
+Comment by Pat Pathade [ 27/Feb/23 ] 
+Please create a UI page where I can type in the question and see the answer displayed as describe in https://fantail.atlassian.net/browse/LAWLIB-345?focusedCommentId=111464 
+Comment by Felix Sundar [ 27/Feb/23 ] 
+Modified the frontend code to display results in the form of a paragraph and a list of reference links below that. 
+Working on the API to include reference links in the result. 
+Integrating with chatgpt API is yet to be done. For now, our search API will return the list of points and the reference links.
+Comment by Felix Sundar [ 27/Feb/23 ] 
+Modified the API to return the response in required format and fixed some UI issues.
+The result now shows the points from triplets as it is. These will be fed to chatgpt API to get a paragraph.
+Abhijeet Dake Please push the master branches in Drupal-Taggr-Angular and eParatus-Sharepoint-TaggrRest to the server and start the rest API and the frontend.
+cc - Pat Pathade Prince Singh 
+Comment by Abhijeet Dake [ 27/Feb/23 ] 
+I have pushed the code changes of eParatus-Sharepoint-TaggrRest onto the server and made changes to the front end by uploading the dist folder in {{/var/www/html/taggr/ }}directory.
+
+Also made changes in the nginx configuration:
+
+cc: Rohit Agharkar Mahesh Bhosle Felix Sundar 
+Comment by Felix Sundar [ 28/Feb/23 ] 
+Updated the search api to not filter out stopwords. Now we get results for more queries that didn’t work earlier.
+
+
+But the results are not always exactly related to the query. We use substring matching on triplets to get the results. Looking into how it can be improved.
+Pat Pathade 
+Comment by Felix Sundar [ 28/Feb/23 ] 
+Modified document processor to process all nodes and not just ‘Landlord-Tenant’.
+Abhijeet Dake Please take the latest code from master branch of drupal-document-processor. Configure the server to proxy all requests that starts with ‘/docp’ to the document processor service. And start both the document processor and taggr services.
+Comment by Abhijeet Dake [ 28/Feb/23 ] 
+I have pulled the latest code for the drupal-document-processor build and started the java application.
+
+Also added a proxy setting in nginx configuration and restarted nginx.service.
+
+cc: Rohit Agharkar Mahesh Bhosle Felix Sundar 
+Comment by Felix Sundar [ 28/Feb/23 ] 
+Tagger is processing all Fragments related to all terms from the taxonomy structure. 
+Total Terms in the Taxonomy - 100
+Total Fragments(related HTML pages) - 457
+Fragments processed till now - 154
+Triplets generated - 35425
+Comment by Felix Sundar [ 28/Feb/23 ] 
+Pat Pathade 
+Analysis of current implementation:
+We generate triplets for all fragments and connect them to the corresponding fragments in neo4j. When we search for something, we look for triplets that match with the words in the query, using substring matching. 
+Substring matching will cause a lot of confusion, especially with small words. E.g. 'for' will match with 'informal', 'of''withdrawal', etc. If we do exact matching or remove stopswords like this from the query, then a lot of queries won't have any results at all. 
+Storing the triplets in the lemmatized form will marginally increase the probability of getting results in exact matching by removing differences like the tense of a verb and singular - plural. But still, the whole phrase in the triplet should be present in the query.
+These problems become more apparent as more triplets are added.
+
+Earlier when only ‘Landlord-Tenant’ was tagged, the query “tenant wants to file complaint against owner”, returned related triplets only. Now it returns a lot of other unrelated triplets too.
+
+Looking for other ways to get meaningful results.
+Comment by Pat Pathade [ 28/Feb/23 ] 
+We need to refer to techniques prescribed by Stanford.edu or other academic resources on how to solve this problem of improving results. Semantic search’s goal is to give less results with increased accuracy. The problem I think boils down to understanding the meaning behind the question and finding the answer in the corpus of triplets.
+Finding the answer on our own through lemmatization, stop words and matching substrings may not be a sufficient approach.
+Comment by Pat Pathade [ 01/Mar/23 ] 
+http://3.215.165.135/home is the link to the search page
+Comment by Pat Pathade [ 01/Mar/23 ] 
+Felix Sundar - I think we need to extract triples from the query string and then use the subject/object from the query to find a match on the subject and object in the graph. I am not sure what we going to look for. For example, consider these three triplets stored in the graph:
+Washington DC | is the capital of | United States
+United States' | capital is | Washington DC
+Capital | of United States is | Washington DC
+Now consider my query “What is the capital of the United States?” Or “Name the capital of the United States” or “Is Washington DC the capital of United States?” I should get a hit on all three triplets in the graph.
+Comment by Felix Sundar [ 01/Mar/23 ] 
+Modified the search API to extract triplets from the query and look for triplets in the database with the same subject or object. It returns too many results when searched for tenant wants to file a complaint againt owner
+
+Here, ‘tenant’ is a subject and there are too many triplets with this subject. If the db query is modified to use ‘and’ condition instead of ‘or’, the result is empty.
+We can try another method: extract entities from the search query(instead of triplets), and then return all triplets that contain any of those entities in both subject and object. Working on this.
+Comment by Felix Sundar [ 01/Mar/23 ] 
+Taggr has processed all fragments.
+Total fragments - 457
+Total Triplets - 92137
+Comment by Felix Sundar [ 01/Mar/23 ] 
+Matching triplets based on named entities in the query doesn’t seem reliable. 
+
+
+Only a few words are recognized as named entities and sometimes there is none in the query. So the results are either unrelated or empty.
+Comment by Felix Sundar [ 01/Mar/23 ] 
+Pat Pathade 
+I analyzed possible ways to search the triplets to get appropriate answer for queries like "What is the capital of the United States?" There doesn’t seem to be any way to get meaningful answers just by doing look ups on triplets. 
+Let’s assume there are triplets like this in the database:
+Washington DC | is the capital of | United States
+United States' | capital is | Washington DC
+Capital | of United States is | Washington DC
+We try to generate triplets from the query and then match it with those in the db. But the query “What is the capital of the United States“ doesn’t produce any triplets at all.
+
+When we try to get named entities in the query and search the triplets with it. Here, ‘United States’ is the only named entity in the query. And entities like this will match with a lot of triplets in the database.
+
+We use stanford NLP in eParatus to tag fragments with related concepts and terms. While searching we do string matching on the concepts and terms and return the related fragments. But generating answers by matching with triplets doesn’t seem like a possibility.
+I think features like that would need machine learning models involved. Researching about this.
+Comment by Pat Pathade [ 01/Mar/23 ] 
+Ok, I will do some research as well. Ask Aashay as well.
+Comment by Felix Sundar [ 02/Mar/23 ] 
+Pat Pathade 
+After researching possible ways to produce the desired search results, I came up with the following. 
+We can use the ChatGPT API to get direct answers to user queries. It doesn’t need extra input from us. But it won’t include references. To add references, we can search our neo4j database for relevant fragments.
+Our search API will do both these tasks and return the answer along with references. However, we cannot use the same approach used in eParatus while searching for related fragments in neo4j as this could generate a large number of fragments. I am looking into alternative methods to find related references since we are searching for a query, not just a term or concept name.
+I will prepare a detailed proposal and design on a confluence page and share it by the end of the day.
+Comment by Felix Sundar [ 02/Mar/23 ] 
+Pat Pathade 
+I have described the proposed solution here - https://fantail.atlassian.net/l/cp/rHQHgGRH Please review.
+Comment by Felix Sundar [ 08/Mar/23 ] 
+Further research findings for PLL semantic search - https://fantail.atlassian.net/wiki/spaces/~629691659bc7150068cdcf6c/pages/3638820865/PLL+Search+Design+-+2 
+Pat Pathade Aashay Chaudhari 
+Comment by Felix Sundar [ 08/Mar/23 ] 
+Pat Pathade 
+Analyzed how the proposed approaches can be implemented. I am ready to get started on the implementation if either of the options looks good. I think AWS Kendra would be a good option.
+Comment by Pat Pathade [ 09/Mar/23 ] 
+Go ahead with Option 1 - Sentence Transformers as this is a more generic solution. 
+Comment by Felix Sundar [ 09/Mar/23 ] 
+Created a Python Flask project. Setup project structure, initialization code and neo4j connection.
+This app will process the neo4j fragments for semantic search using SentenceTransformer library and host the search API.
+Starting with the implementation to process neo4j fragments.
+Comment by Felix Sundar [ 09/Mar/23 ] 
+Search API in Python Flask - https://github.com/fantailtech/drupal-semantic-search 
+The new python taggr - https://github.com/fantailtech/drupal-taggr-python 
+Having taggr and the API in the same application makes it complex and may lead to multiple taggr processes. So separated them into two. Able to connect to neo4j and retrieve fragments.
+
+The python taggr will create a python pickle that contains the text embeddings. The API will use this pickle to find search results.
+Comment by Felix Sundar [ 09/Mar/23 ] 
+Cleaned and structured the two python apps, installed SentenceTransformer library, implemented taggr initialization, scheduling, retrieving fragments and creating embeddings for the pagecontent text.
+Pending in taggr: save the embeddings to pickle in a suitable format.
+Yet to implement search API.
+Comment by Aashay Chaudhari [ 12/Mar/23 ] 
+https://fantail.atlassian.net/wiki/spaces/~629691659bc7150068cdcf6c/pages/3640295433/Document+Retrieval+using+Word+Embeddings 
+Felix Sundar 
+Word_Embedding_2023.ipynb
+Comment by Felix Sundar [ 13/Mar/23 ] 
+Completed Taggr implementation. Facing authentication issues with retrieving training models from the repository.
+
+Working on it.
+Comment by Felix Sundar [ 14/Mar/23 ] 
+Completed taggr and seach API implementation. Tested locally. Able to get fragment results that are related to the search query.
+Working on setting up the python projects in the server.
+Pat Pathade Aashay Chaudhari 
+Comment by Felix Sundar [ 14/Mar/23 ] 
+Abhijeet Dake 
+Please push the master branches in the following python repos to the server:
+https://github.com/fantailtech/drupal-taggr-python 
+https://github.com/fantailtech/drupal-semantic-search 
+Inside each of these repos:
+* create a virtual environment named ‘venv’
+* activate the virtual environment
+* install the dependencies
+* deactivate the virtual environment
+For drupal-taggr-python: Run main.py as a linux service using the python interpreter in venv
+For drupal-semantic-search: Run the wsgi application as a linux service using Gunicorn in venv
+Finally, setup nginx to proxy all requests starting with ‘/api’ to the port in which Gunicorn runs.
+Comment by Abhijeet Dake [ 14/Mar/23 ] 
+I have pushed the new python repo changes onto the server.
+Steps:
+1. Clone the drupal-taggr-python and drupal-semantic-search repositories into separate directories using git:
+git clone https://github.com/fantailtech/drupal-taggr-python.git
+git clone https://github.com/fantailtech/drupal-semantic-search.git
+2. Create a virtual environment and activate it in each repository:
+For e.g:
+cd drupal-taggr-python
+python3 -m venv venv
+source venv/bin/activate
+repeated the same steps to create and activate drupal-sematic search envt.
+3. Install dependencies for each repository:
+cd drupal-taggr-python pip install -r requirements.txt
+cd drupal-semantice-search pip install -r requirements.txt
+4. Deactivate the venv in each repository after installing dependencies from each repo.
+deactivate
+
+Created two different systemd services to run these services.
+i)Create a systemd service file for the main.py script
+sudo vim /etc/systemd/system/drupal-taggr-python.service
+ii) Edit the drupal-taggr-python.service 
+[Unit]
+Description=Drupal Taggr Python Service
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/drupal-taggr-python
+ExecStart=/home/ubuntu/drupal-taggr-python/venv/bin/python main.py
+
+[Install]
+WantedBy=multi-user.target
+iii) Enable and start the service by running this cmd:
+sudo systemctl enable drupal-taggr-python.service
+sudo systemctl start drupal-taggr-python.service
+
+iv)Configure Gunicorn to serve the drupal-semantic-search WSGI application as a service by creating a systemd service file:
+sudo vim /etc/systemd/system/gunicorn.service
+v)Edit the gunicorn.service file.
+[Unit]
+Description=Gunicorn service for drupal-semantic-search
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/drupal-semantic-search
+#Environment="PATH=/home/ubuntu/drupal-semantic-search/venv/bin"
+ExecStart=/home/ubuntu/drupal-semantic-search/venv/bin/gunicorn --bind 0.0.0.0:8000 wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+vi)Enable and start the gunicorn. service.
+sudo systemctl enable gunicorn.service
+sudo systemctl start gunicorn.service
+
+Also made configuration changes to Nginx and restarted nginx.service.
+
+cc: Felix Sundar Rohit Agharkar Mahesh Bhosle 
+Comment by Felix Sundar [ 14/Mar/23 ] 
+Updated the UI to display the fragments in the result list along with the first few lines from the page content.
+
+Abhijeet Dake Please push the master branch in https://github.com/fantailtech/Drupal-Taggr-Angular and rebuild the frontend code.
+Comment by Abhijeet Dake [ 14/Mar/23 ] 
+I have pushed the Frontend code onto the server by pulling the latest changes of Drupal-Taggr-Angular and uploading the Dist folder into /var/www/html/taggr directory.
+
+cc: Felix Sundar 
+Comment by Felix Sundar [ 14/Mar/23 ] 
+The updated search can now be tested at http://3.215.165.135/home
+Pat Pathade Aashay Chaudhari 
+Comment by Pat Pathade [ 14/Mar/23 ] 
+Is the entire corpus indexed? I tried a few searches; don’t get any results.
+Comment by Felix Sundar [ 15/Mar/23 ] 
+As discussed initially, we first retrieve the taxonomy list and then the pages related to each taxonomy term. This way there are only 457 pages. There might be pages that are not related to any taxonomy terms. 
+Working on retrieving all pages irrespective of taxonomy, as it used to be earlier.
+Pat Pathade 
+Comment by Felix Sundar [ 15/Mar/23 ] 
+Modified the document processor to retrieve all pages as in the previous implementation and matched the fields to the new FragmentEntity format. But the URL of the pages is not present in the API response.
+
+Working on changing the implementation to use ‘node/<nodeId>’ API, which returns all fields required for the new FragmentEntity format.
+Comment by Felix Sundar [ 15/Mar/23 ] 
+Completed the changes in document processor to retrieve all nodes from PLL and create fragments.
+Abhijeet Dake Please push the latest changes in master branches in drupal-document-processor and drupal-taggr-python. Restart the services of these repos.
+Comment by Abhijeet Dake [ 15/Mar/23 ] 
+I have pushed the code onto the Server for drupal-document-processor build and started the java Application for this repository.
+
+And restarted the drupal-taggr-python.service after doing code changes.
+
+cc: Felix Sundar 
+Comment by Felix Sundar [ 15/Mar/23 ] 
+Pat Pathade As discussed today, we are indexing only the pages that are related to the taxonomy terms. There are 100 taxonomy terms in total and 457 pages related to them. 
+We also have the implementation ready to index all pages. We can switch to it if needed in the future.
+Researching about having a threshold score value to filter the results.
+Comment by Felix Sundar [ 16/Mar/23 ] 
+Pat Pathade Aashay Chaudhari 
+Checked the cosine similarity scores of each result. Results that are related to the query seem to have a score above 0.5 We can filter the results using this value as the threshold to improve the accuracy. After this we will be getting fewer results for each query. If none of the results are above this value, then the results will be empty. Making the changes in search API.
+
+
+
+Comment by Felix Sundar [ 20/Mar/23 ] 
+Implemented chatgpt API integration with semantic search. Once the fragment results are retrieved, the page content of the fragments and the search query is sent to chatgpt API. Chatgpt is instructed to find the answer to the query based on the content we have sent.
+Finally, the semantic search API returns the chatgpt's response and the list of fragments.
+
+
+The prompts sent to chatgpt API for each query:
+chatgptMessages = [
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": "Read and understand the following text: "+
+                                            self.getPageContent(fragmentsResults[0])},
+                {"role": "assistant", "content": "I have understood the text. "
+                                                 "Now I can answer your query based on this text. "
+                                                 "I won't include any phrase like 'based on the text' in the beginning "
+                                                 "of the answer."},
+                {"role": "user", "content": "query: "+search_query}
+            ]
+Working on the UI. 
+Pat Pathade Aashay Chaudhari 
+Comment by Felix Sundar [ 20/Mar/23 ] 
+Updated UI accordingly. The new search is now available at http://3.215.165.135/home
+
+
+Pat Pathade Aashay Chaudhari 
+Comment by Aashay Chaudhari [ 20/Mar/23 ] 
+I have discussed the problems with current implementations with Felix Sundar.
+1. One of the problems he is facing is when the user query is long, more “irrelevant” documents are being retrieved. This is because currently, we are currently tokenizing the user search and documents to create vector representations without removing the stop words. So when a document vector is created, it is an average overall of it’s individual word vector. In this case, not removing stop words introduce unwanted noise into our vector space model and rankings. So the initial approach to overcome this is using a NLP pipeline (either NLTK or SpaCy) to remove stop words before creating word embeddings. An example implementation is attached below:
+
+I am certain removing stop words and lemmatizing will improve the model’s accuracy to retrieve results drastically. 
+2) The problem of token limit 4096: So we can’t really do much about the token limit which is 4096 words as this is an architectural constraint of GPT which will be fixed in upcoming API releases. What we can do is:
+? Currently we are passing the entire document data text to the GPT model to create summary/answer the question
+? Try removing the stop words and sending the processed text to GPT and checking how relevant the responses are. In this way we will drastically reduce the token count we use up providing context to the model and we can get a longer response as well. 
+I have discussed both the above things with Felix Sundar and will start researching pre-trained models and their hardware requirements. Once I’m finished researching I’ll create a Google colab file as a minimum viable product demonstrating the usage of this model if it’s feasible. 
+Pat Pathade 
+Comment by Felix Sundar [ 21/Mar/23 ] 
+As mentioned here - https://platform.openai.com/docs/guides/chat/introduction 
+“Because the models have no memory of past requests, all relevant information must be supplied via the conversation. If a conversation cannot fit within the model’s token limit, it will need to be shortened in some way.”
+So we can’t split the page contents into multiple requests. All contents must be included within the token limit 4097, leaving some token space for the response. If we leave 400 tokens for the response, then our content should be within 3700 tokens.
+Testing removing token words in page content before sending to chatgpt.
+Comment by Felix Sundar [ 21/Mar/23 ] 
+Pat Pathade Aashay Chaudhari 
+Implemented tokenization and removing stopwords. Results after removing stopwords are also good. If total number of tokens in the original text is below 3500, the text is sent without removing stopwords. If it is above that value, then stopwords are removed. If it is still above that value, then it is truncated.
+So now the system is expected to include chatgpt answers in all results, unless the fragment result is empty.
+Answer from stopword removed and truncated text:
+
+Comment by Pat Pathade [ 21/Mar/23 ] 
+Abhijeet Dake keep the system running whole day today US time and tomorrow till 2.00 pm
+Felix Sundar fyi
+Comment by Felix Sundar [ 21/Mar/23 ] 
+Implemented stopwords removal from page contents before creating embeddings and the query before performing search. Testing it locally.
+Comment by Pat Pathade [ 21/Mar/23 ] 
+The term “foreclosure” returns a lot of hits from Solr search on the Drupal site:
+
+But questions like the one below return nothing:
+
+I should get results even on questions like “My house was foreclosed. What are my options?”
+Comment by Pat Pathade [ 21/Mar/23 ] 
+I get good answers to the following:
+How can I not pay a contractor?
+How can I not pay rent?
+?? 
+Comment by Felix Sundar [ 22/Mar/23 ] 
+“foreclosure” has three results when stopwords are not removed. It has one result when they are removed.
+“My house was foreclosed. What are my options” has no result in either method.
+Testing lemmatization of search query and page contents.
+
+Comment by Felix Sundar [ 22/Mar/23 ] 
+After removing stopwords and lemmatization, the results are sometimes unrelated. Like the below two.
+
+
+But without these text transformations, this kind of query returns empty results because of the threshold value 0.5. Lemmatization doesn’t always transform words to its original form, it sometimes preserves the tense and variations. Exploring stemming instead of lemmatization.
+Comment by Felix Sundar [ 22/Mar/23 ] 
+Pat Pathade Aashay Chaudhari 
+Preprocessing the text in any form leads to unpredictable results. Tried various methods like removing stopwords, lemmatizing, stemming and lowercase. Some methods work well for some queries and not for others. The current implementation - the original text without removing stopwords seems to be working for most cases. The pre-trained machine learning model that we use - “sentence-transformers/msmarco-distilroberta-base-v2“, is trained on full sentences and so it is expected to perform well when the text is a full sentence without removing stopwords.
+It doesn’t return results for some queries like “what are my options in case of foreclosure” and “My house was foreclosed. What are my options“ because we are filtering the results based on the threshold - 0.5. If we just search ‘foreclosure’ we get meaningful results. So I think we should stay with the current implementation. I will remove the case sensitivity - it may slightly improve the search quality.
+Comment by Felix Sundar [ 22/Mar/23 ] 
+Pat Pathade Aashay Chaudhari 
+API Requests limit - https://platform.openai.com/docs/guides/rate-limits/overview 
+Per minute - 3500 requests or 90000 tokens, whichever comes first.
+If we use 3500 tokens per request approximately, then it is 25 requests per minute. The limit is imposed per organization. There is an option to request a limit increase if we provide sufficient proof that it is needed.
+Comment by Pat Pathade [ 22/Mar/23 ] 
+This request limit is good enough for PLL in my opinion
+Comment by Pat Pathade [ 22/Mar/23 ] 
+Variations of terms must work. Foreclosure, foreclosed, forclosed, fore closed etc. 
+When you say preprocessing the text, do you mean you are lemmatizing or stopping the query?
+Comment by Felix Sundar [ 22/Mar/23 ] 
+Pat Pathade Aashay Chaudhari 
+Preprocessing the text:
+Preprocessing is any kind of transformation that we do on the text before creating an embedding for it. Like removing stopwords, lemmatization, stemming. 
+Variations of terms:
+The implementation is ready for removing variations in terms. The stopwords are removed and the remaining words are stemmed before creating embeddings. Chose stemming over lemmatization because lemmatization doesn’t transform all words to their original form. 
+As mentioned earlier, this works for some queries, while others get empty results because of the threshold value.
+
+
+
+Once the demos are over, we can push this to the server and test again with other queries if needed.
+The Design
+We chose sentence transformer library for search because we wanted to search the contents based on the meaning of the sentence. If we remove the stopwords, stem the remaining words, and then perform the search, then we are basically trying to find contents with matching words, which is closer to string matching-based search than meaning-based search. And there are better libraries for this kind of search, like Solr search and Elastic search. 
+If we consider using Solr search:
+Our results are already similar to Solr search results on PLL site. We can implement Solr search on our contents in neo4j and we can add improvements like preprocessing the query and limiting the number of results. The answer generation is anyway taken care of by chatgpt using the contents of the result.
+Comment by Pat Pathade [ 22/Mar/23 ] 
+“on the text” - which text? Is it the query text in order to search the fragments, or the fragment text before sending to ChatGPT?
+I asked this question “Is weed legal?” I got the perfect answer:
+The text explains that in Maryland, cannabis possession and use becomes legal for adults 21 and older on July 1, 2023. Before that, possession of small amounts of cannabis or cannabis products is still illegal and carries civil penalties. However, starting January 1, 2023, civil penalties for possession under the new law are divided into two tiers, based on the amount in possession. Therefore, weed is currently not fully legal in Maryland, but will be legal for adults in small amounts starting in July 2023.
+References:
+Recreational Cannabis Use and Possession in MarylandMaryland voted to legalize some amounts of cannabis use and possession. Under the enabling legislation, adults 21 and older may possess, use, and grow cannabis. Additionally, marijuana is now referred to as cannabis by Maryland laws. Cannabis possess...
+Weed is another term for marijuana. It is nowhere on the PLL website, yet system pulled out the right reference and ChatGPT uses both, weed and marijuana, in its answer. How does it do it?
+Comment by Aashay Chaudhari [ 23/Mar/23 ] 
+Word_Embedding.ipynb
+Felix Sundar 
+Comment by Aashay Chaudhari [ 23/Mar/23 ] 
+I had a catch-up call with Felix. 
+Things we discussed:
+? Whether to incorporate stop words or not. I have suggested not to use stop words as they contribute no information in the word embedding approach. Refer to my last comment
+? Threshold value for returning relevant documents
+After removing stop words, fewer documents were being returned due to low relevancy scores. This is to be expected and is why we can not use hard-coded threshold values to determine relevancy between search and document. 
+So we worked on the prompts we were using to create ChatGPT responses and could fine-tune it to return “text not found” if the search is not relevant to the retrieved documents. This is important progress as it allows us to have a consistent string response by the model if the input search is not related to the retrieved documents. 
+The 2 main approaches we can implement based on this are: 
+1. Retrieve the top 5 documents based on a relevancy score.
+2. Send the top 2 document data as context (we should still be well within the token limit as we are removing stop words)
+3. Create a ChatGPT response if the context is relevant to the user query, else return “text not found”
+4. Based on the ChatGPT response, we can either display (“No relevant data found”) or the GPT response on the front end along with the list of documents having the 5 highest relevancy scores.
+5. As of now, this seems to be the most suitable approach as there is no way of creating a hard threshold for deciding if a document is relevant or not.
+Updated ChatGPT prompt: 
+
+Updated ChatGPT response: 
+
+As observed, prompt engineering is an extremely crucial step in our implementation as it decides the quality of information/summary we provide. We will keep working on updating and fine-tuning prompts. 
+I have asked Felix Sundar to test this new prompt out and to check if he is able to find a hard threshold value for determining relevancy. I have also asked him to research about KeyedVectors ( https://radimrehurek.com/gensim/models/keyedvectors.html ) which we can use instead of sentence transformers, but this is not a priority. In my opinion, it will improve the accuracy slightly, so it's not an urgent requirement to switch.
+Pat Pathade 
+Comment by Felix Sundar [ 23/Mar/23 ] 
+As discussed with Aashay, I will test the stopwords removed embeddings without a threshold value and prompting chatgpt to return “text not found” if the query is irrelevant to our contents. If we need to have a threshold value, it has to be a low value like 0.2 since the scores are low when stopwords are removed.
+We won’t be doing lemmatization or stemming as it won’t add any value in this case. “The text” denotes both the query and the page content because we have to do the same kind of transformations at both places to have better accuracy.
+When we search for “weed” it returns documents related to “marijuana” and “cannabis” because we are searching based on the cosine similarity of words, which is a meaning-based search and not string matching based. This is also the reason why don’t have to worry about variations in terms.
+Pat Pathade Aashay Chaudhari 
+Comment by Aashay Chaudhari [ 23/Mar/23 ] 
+Also, a quick note:
+We can improve the accuracy of the model in retrieving relevant documents based on the k-gram technique. I will post a collab demonstrating this soon which will make our search more robust. 
+Essentially it will return documents relevant to weed, marijuana, and cannabis even if the user misspells the query word “weed” as “wead”. 
+Pat Pathade Felix Sundar 
+Generated at Thu Mar 23 06:25:58 UTC 2023 by Kaushal Vidyarthi using Jira 1001.0.0-SNAPSHOT#100219-sha1:0c2c9f23f9259888c7f163037a464e9c4cce5a00. 
